@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  some-mongo:
+    image: mongo
+    container_name: container_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
