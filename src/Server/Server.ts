@@ -51,7 +51,39 @@ export class Server {
           res.status(500).json({ error: "Error al eliminar el blog" });
         }
     })
+
  
+    this.app.put('/:id', async (req, res):Promise<any> => {
+      try {
+      const id  = req.params.id;
+      const { title, description, image, content, destacado } = req.body;
+      
+      if (!id) {
+        return res.status(400).json({ error: 'ID inválido' });
+      }
+    
+        const buscado = await ModelBlog.findById(id);
+        if (!buscado) {
+          return res.status(404).json({ error: 'Artículo no encontrado' });
+        }
+    
+        
+        if (!title && !description && !image && !content && destacado === undefined) {
+          return res.status(400).json({ error: 'No se proporcionaron datos para actualizar' });
+        }
+
+        Object.assign(buscado, { title, description, image, content, destacado });
+    
+
+        const actualizado = await buscado.save();
+    
+        res.status(200).json(actualizado);
+      } catch (error) {
+        console.error('Error al actualizar el artículo:', error);
+       res.status(500).json({ error: 'Error interno del servidor' });
+      }
+    });
+    
 
     this.app.listen(this.port, () => {
       console.log(`Server is running on port ${this.port}`);
