@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose';
-import {ModelBlog } from './mongo/ModelBlog';
+import { ModelBlog } from './mongo/ModelBlog';
 
 export class Server {
   private app: express.Application;
@@ -13,13 +13,14 @@ export class Server {
 
   public start() {
 
-    const MONGO_URI = "mongodb://admin:root@localhost:27017/"; // Reemplaza con tu base de datos
+    const MONGO_URI = "mongodb://admin:root@localhost:27017/"; 
 
     mongoose.connect(MONGO_URI)
     .then(() => console.log("✅ Conectado a MongoDB"))
     .catch(err => console.error("❌ Error de conexión:", err));
 
     this.app.use(express.json());
+
 
     this.app.get("/", async (req, res) => {
         try {
